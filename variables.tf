@@ -54,6 +54,12 @@ variable "environment" {
   default     = "Production"
 }
 
+variable "createdDate" {
+  description = "Creation date for tagging (YYYY-MM-DD format)"
+  type        = string
+  default     = ""
+}
+
 variable "company" {
   description = "Company name for tagging"
   type        = string

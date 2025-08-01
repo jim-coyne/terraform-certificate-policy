@@ -37,7 +37,7 @@ locals {
     },
     {
       key   = "CreatedDate"
-      value = "2025-07-31"
+      value = var.createdDate != "" ? var.createdDate : formatdate("YYYY-MM-DD", timestamp())
     }
   ]
   
