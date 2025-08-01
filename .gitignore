@@ -1,0 +1,50 @@
+# .gitignore for Terraform Intersight Certificate Policy
+
+# Terraform files
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfplan.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+*.auto.tfvars
+
+# Sensitive files
+SecretKey.txt
+*.pem
+*.key
+*.crt
+*.cert
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+terraform.log
+
+# Backup files
+*.backup
+*.bak
+*~
+
+# Temporary files
+*.tmp
+.terraform.d/
+
+# Environment specific files
+.env
+.env.local
+.env.*.local
+
+# Crash log files
+crash.log
+crash.*.log

@@ -1,0 +1,21 @@
+# Example Terraform Variables Configuration
+# Copy this file to terraform.tfvars and update with your values
+
+# Intersight Authentication (Required)
+intersight_api_key_id     = "your-api-key-id-here"
+intersight_secret_key_file = "./SecretKey.txt"
+
+# Organization (Optional - uses default if not specified)
+organization_name         = "default"
+# organization_moid       = "your-org-moid-here"  # Alternative to organization_name
+
+# Policy Configuration
+policy_name        = "My-Certificate-Policy"
+policy_description = "UCS certificate management policy"
+environment        = "Production"
+
+# Certificate Files Location
+certificate_directory = "."
+
+# Optional Settings
+# intersight_endpoint = "https://intersight.com"
