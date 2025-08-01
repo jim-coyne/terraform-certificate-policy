@@ -125,7 +125,7 @@ To update certificates:
 
 Before creating new policies, you can check what certificate policies already exist in your Intersight organization:
 
-#### Method 1: Using Terraform Data Source (Recommended)
+#### Using Terraform Data Source
 
 Create a temporary file to query existing policies:
 
@@ -161,37 +161,76 @@ rm check_policies.tf
 terraform refresh
 ```
 
-#### Understanding Policy Types
+## Example Deployment
 
-- **SystemDefault**: Cisco-managed default policy (cannot be deleted/modified)
-- **Custom Policies**: User-created policies managed by this Terraform configuration
+### Sample terraform apply Output
 
-### Creating Policies
+When you run `terraform apply`, you'll see output similar to this:
+
 ```bash
-terraform apply -auto-approve
+$ terraform apply -auto-approve
+
+data.tls_certificate.ca_cert[0]: Reading...
+data.tls_certificate.server_cert[0]: Reading...
+data.intersight_organization_organization.org[0]: Reading...
+data.tls_certificate.ca_cert[0]: Read complete after 0s
+data.tls_certificate.server_cert[0]: Read complete after 0s  
+data.intersight_organization_organization.org[0]: Read complete after 1s
+
+Terraform used the selected providers to generate the following execution plan. 
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # intersight_certificatemanagement_policy.certificate_policy will be created
+  + resource "intersight_certificatemanagement_policy" "certificate_policy" {
+      + class_id             = "certificatemanagement.Policy"
+      + create_time          = (known after apply)
+      + description          = "UCS certificate management"
+      + id                   = (known after apply)
+      + moid                 = (known after apply)
+      + name                 = "Certificate-Policy-Final-Test"
+      + object_type          = "certificatemanagement.Policy"
+      + certificates         = [
+          + {
+              + enabled     = true
+              + object_type = "certificatemanagement.RootCaCertificate"
+              # CA Certificate configuration...
+            },
+          + {
+              + enabled     = true
+              + object_type = "certificatemanagement.Imc"
+              # Server Certificate configuration...
+            },
+        ]
+      + tags = [
+          + { key = "CreatedDate", value = "2025-07-31" },
+          + { key = "Environment", value = "Production" },
+        ]
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+intersight_certificatemanagement_policy.certificate_policy: Creating...
+intersight_certificatemanagement_policy.certificate_policy: Creation complete after 1s [id=688c14666275723101465dca]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
 
-### Deleting Policies
-```bash
-terraform destroy -auto-approve
-```
+### Sample terraform output Results
 
-### Viewing Policy Status
-```bash
-terraform output
-```
-### Validation Commands
+After successful deployment, `terraform output` will show:
 
 ```bash
-# Validate Terraform configuration
-terraform validate
+$ terraform output
 
-# Check formatting
-terraform fmt -check
-
-# Plan without applying
-terraform plan
-
-# Check provider requirements
-terraform version
+certificate_files_used = {
+  "ca_cert_file" = "./sample_ca_cert.pem"
+  "server_cert_file" = "./sample_server_cert.pem"
+  "server_key_file" = "./sample_server_key.pem"
+}
+certificate_policy_moid = "688c14666275723101465dca"
+certificate_policy_name = "Certificate-Policy-Final-Test"
+organization_moid = "659eb6c26972653001645fbe"
 ```
